@@ -1,7 +1,6 @@
 const fs = require("fs");
 const { Router } = require("express");
 let passport = require('passport');
-const Contenedor = require('../components/productos/Contenedor');
 const router = Router();
 
 function serverRouter(app){
