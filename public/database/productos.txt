@@ -1,0 +1,1 @@
+[{"name":"titulo2","description":"asd","price":"123","thumbnail":"asd","stock":"123","timestamp":1636667400163,"id":1},{"name":"titulo3","description":"ad","price":"123","thumbnail":"asd","stock":"123","timestamp":1636667406448,"id":2},{"name":"titulo4","description":"asd","price":"24","thumbnail":"12","stock":"1231","timestamp":1636667414872,"id":3}]
