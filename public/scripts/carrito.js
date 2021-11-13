@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => { fetchData() });
 const fetchData = async () => {
     try{
         console.log("desde el fetch")
-        const res = await fetch('../buycarritos.json');
+        const res = await fetch('../database/buycarritos.json');
         const datos = await res.json();
         console.log(datos);
         pintarCarrito(datos);

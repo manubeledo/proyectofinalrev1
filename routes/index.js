@@ -41,7 +41,7 @@ function serverRouter(app){
         async function getById() {
             try {
                 let id = req.params.id;
-                let datos = JSON.parse(await fs.promises.readFile('./public/productos.txt'));
+                let datos = JSON.parse(await fs.promises.readFile('./public/database/productos.txt'));
                 let responseFilter = datos.filter(elemento => elemento.id==id);
                 if (responseFilter.length != 0){
                 res.json(responseFilter);
@@ -95,7 +95,7 @@ function serverRouter(app){
             try {
                 console.log(req.body)
                 let data = JSON.stringify(req.body);
-                await fs.promises.writeFile('./public/carritos.json', data);
+                await fs.promises.writeFile('./public/database/carritos.json', data);
                 res.redirect('./index')
             }
             catch(err){
@@ -110,12 +110,12 @@ function serverRouter(app){
                 if (fs.existsSync('./public/buycarritos.json')) {
                     let data = JSON.stringify(req.body);
                     console.log("DATA", data)
-                    await fs.promises.writeFile('./public/buycarritos.json', data);
+                    await fs.promises.writeFile('./public/database/buycarritos.json', data);
                     res.redirect('./index')
                 } else {
                     let data = JSON.stringify(req.body);
                     console.log("DATA", data)
-                    await fs.promises.writeFile('./public/buycarritos.json', data);
+                    await fs.promises.writeFile('./public/database/buycarritos.json', data);
                     res.redirect('./index')
                 }
             }

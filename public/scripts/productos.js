@@ -32,7 +32,7 @@ const fetchData = async () => {
 
 const carritosData = async () => {
     try{
-        const res = await fetch('../buycarritos.json');
+        const res = await fetch('../database/buycarritos.json');
         const data = await res.json();
     } catch(err) {
         console.log(err)
