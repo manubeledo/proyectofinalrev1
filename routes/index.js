@@ -1,5 +1,6 @@
 const fs = require("fs");
 const { Router } = require("express");
+const Contenedor = require('../public/components/contenedor')
 let passport = require('passport');
 const router = Router();
 
@@ -84,7 +85,7 @@ function serverRouter(app){
 
     // Recibe credenciales e inicia sesion //
     router.post('/login', passport.authenticate('local',{
-        successRedirect: "/api/carrito",
+        successRedirect: "/api/index",
         failureRedirect: "login"
     }));
     
@@ -108,10 +109,12 @@ function serverRouter(app){
             try {
                 if (fs.existsSync('./public/buycarritos.json')) {
                     let data = JSON.stringify(req.body);
-                    await fs.promises.appendFile('./public/buycarritos.json', data);
+                    console.log("DATA", data)
+                    await fs.promises.writeFile('./public/buycarritos.json', data);
                     res.redirect('./index')
                 } else {
                     let data = JSON.stringify(req.body);
+                    console.log("DATA", data)
                     await fs.promises.writeFile('./public/buycarritos.json', data);
                     res.redirect('./index')
                 }

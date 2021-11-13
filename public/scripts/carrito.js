@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => { fetchData() });
 const fetchData = async () => {
     try{
         console.log("desde el fetch")
-        const res = await fetch('../carritos.json');
+        const res = await fetch('../buycarritos.json');
         const datos = await res.json();
         console.log(datos);
         pintarCarrito(datos);
@@ -24,28 +24,24 @@ const fetchData = async () => {
 }
 
 const pintarCarrito = datos => {
-    console.log(datos);
-    console.log(Object.values(datos));
-    Object.values(datos).forEach(producto => {
-        let tbody = document.createElement('tbody')
-        tbody.innerHTML = `
-          <tr id="card-carrito">
-            <td id="id-prod">${producto.id}</td>
-            <td id="id-timestamp-prod">4</td>
-            <td id="id-nombre">${producto.title}</td>
-            <td id="id-description">6</td>
-            <td id="id-codigo">7</td>
-            <td id="id-foto">8</td>
-            <td id="id-preciototal">9</td>
-            <td id="id-cantidad">10</td>
-            <td id="status">11</td>
-            <td id="status">11</td>
-            <td id="status">11</td>
-          </tr>`
-        
-        templateCarrito.appendChild(tbody)
-        })
+    console.log(Object.values(datos).length);
+    let i = 0;
+    Object.values(datos).forEach( element => {
+    console.log(element)
+    i++
+    let newDiv = document.createElement("div");
+    newDiv.style = "border: 3px solid green; padding: 10px"
+    let newContent = document.createTextNode(`${JSON.stringify(element)}`);
+    newDiv.appendChild(newContent);
+
+    let currentDiv = document.getElementById("div1");
+    document.body.insertBefore(newDiv, currentDiv);
+
+    })
 }
+
+
+
 
 
 

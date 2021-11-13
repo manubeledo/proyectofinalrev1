@@ -6,7 +6,8 @@ const templateFooter = document.getElementById('template-footer').content
 const templateCarrito = document.getElementById('template-carrito').content
 const fragment = document.createDocumentFragment()
 let carrito = {}
-let carritos = []
+let carritos = {}
+let index = 1;
 
 document.addEventListener('DOMContentLoaded', () => { fetchData() });
 document.addEventListener('DOMContentLoaded', () => { carritosData() });
@@ -33,7 +34,6 @@ const carritosData = async () => {
     try{
         const res = await fetch('../buycarritos.json');
         const data = await res.json();
-        console.log(res);
     } catch(err) {
         console.log(err)
     }
@@ -46,6 +46,7 @@ const pintarCards = data => {
         templateCard.getElementById('card-description').textContent = producto.description
         templateCard.getElementById('card-price').textContent = producto.price
         templateCard.getElementById('card-stock').textContent = producto.stock
+        templateCard.getElementById('card-img').src= producto.thumbnail
         templateCard.querySelector('.btn-dark').dataset.id = producto.id
 
         const clone = templateCard.cloneNode(true)
@@ -72,6 +73,7 @@ const createCarrito = async (objeto) => {
         precio: objeto.querySelector('.left').textContent,
         cantidad: 1,
         timestamp: Date.now(),
+        codigo: ((Date.now)/100000),
         description: `una descripcion`,
         stock: 100
     }
@@ -81,6 +83,8 @@ const createCarrito = async (objeto) => {
     }
 
     carrito[producto.id] = {...producto}
+
+    console.log(carrito)
     
     await refreshCar()
     
@@ -145,19 +149,22 @@ const pintarFooter = () => {
 
     const buy = document.querySelector('#buy-carrito')
     
-    buy.addEventListener('click', () => {
-        carritos.push(carrito)
+    buy.addEventListener('click', async () => {
+        let id = index;
+        let date = Date.now()
+        datos = [id, date]
+        carritos[datos] = carrito;
+        console.log(carritos);
+        index++
         carrito = {}
-        buyCarritos()
+        await buyCarritos()
         pintarCarrito()
     })
-
 }
 
 // SE CREA LA ACCION DE LOS BOTONES PARA AUMENTAR Y DISMINUIR CANTIDAD//
 
 const btnAccion = e => {
-    // console.log(e.target.classList.contains('btn-info'))
     if (e.target.classList.contains('btn-info')) {
         const producto = carrito[e.target.dataset.id]
         producto.cantidad++
@@ -181,22 +188,18 @@ const btnAccion = e => {
     e.stopPropagation()
 }
 
-function refreshCar(){
-    fetch("http://localhost:8080/api/carrito", {
+async function refreshCar(){
+    await fetch("http://localhost:8080/api/carrito", {
         method: 'POST', // or 'PUT'
         body: JSON.stringify(carrito), // data can be `string` or {object}!
         headers:{ 'Content-Type': 'application/json' }
-      }).then(res => res.json())
-      .catch(error => console.error('Error:', error))
-      .then(response => console.log('Success:', response));
+      })
 }
 
-function buyCarritos(){
-    fetch("http://localhost:8080/api/buycarritos", {
+async function buyCarritos(){
+    await fetch("http://localhost:8080/api/buycarritos", {
         method: 'POST', // or 'PUT'
         body: JSON.stringify(carritos), // data can be `string` or {object}!
         headers:{ 'Content-Type': 'application/json' }
-      }).then(res => res.json())
-      .catch(error => console.error('Error:', error))
-      .then(response => console.log('Success:', response));
+      })
 }
